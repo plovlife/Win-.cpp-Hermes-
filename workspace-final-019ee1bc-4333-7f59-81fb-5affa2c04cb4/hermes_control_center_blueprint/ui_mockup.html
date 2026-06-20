@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hermes Control Center – Mockup</title>
+  <style>
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#0f1720;color:#e8eef7}
+    .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+    .sidebar{background:#121c28;padding:24px;border-right:1px solid rgba(255,255,255,.08)}
+    .sidebar h1{font-size:1.1rem;margin-top:0}
+    .nav a{display:block;color:#d7e3f3;text-decoration:none;padding:10px 12px;border-radius:10px;margin:6px 0;background:rgba(255,255,255,.03)}
+    .nav a:hover{background:rgba(255,255,255,.08)}
+    .main{padding:28px}
+    .hero{background:linear-gradient(135deg,#16314c,#1e4d78);padding:24px;border-radius:18px;margin-bottom:24px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+    .card{background:#162230;padding:18px;border-radius:16px;border:1px solid rgba(255,255,255,.08)}
+    .card h3{margin-top:0;font-size:1rem}
+    .ok{color:#73e49f;font-weight:bold}
+    .warn{color:#ffd166;font-weight:bold}
+    .mono{font-family:Consolas,monospace;background:#0e1620;padding:2px 6px;border-radius:6px}
+    .section{margin-top:26px}
+    table{width:100%;border-collapse:collapse;font-size:.95rem}
+    td,th{padding:10px;border-bottom:1px solid rgba(255,255,255,.08);text-align:left}
+    .btn{display:inline-block;margin-top:10px;padding:10px 14px;border-radius:10px;background:#2d6cdf;color:white;text-decoration:none}
+    .btn.secondary{background:#334155}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <h1>Hermes Control Center</h1>
+      <p style="color:#a8bbcf">Mockup für die spätere AI-Studio-App</p>
+      <nav class="nav">
+        <a href="#">Dashboard</a>
+        <a href="#">llama.cpp Server</a>
+        <a href="#">Hermes</a>
+        <a href="#">Integrationen</a>
+        <a href="#">Profile</a>
+        <a href="#">Logs & Diagnose</a>
+        <a href="#">Einstellungen</a>
+      </nav>
+    </aside>
+    <main class="main">
+      <section class="hero">
+        <h2 style="margin-top:0">Zentrale Oberfläche für lokalen llama.cpp-Betrieb und API-Integrationen</h2>
+        <p>Diese Mockup-Seite zeigt, wie das spätere Programm aufgebaut sein kann: lokaler Serverstart, Hermes-Hilfe, GitHub/Hugging Face/Gemini-Integration, Profile und Diagnose an einem Ort.</p>
+      </section>
+
+      <section class="grid">
+        <div class="card">
+          <h3>llama.cpp Status</h3>
+          <p class="ok">● Server läuft</p>
+          <p>Endpoint: <span class="mono">http://127.0.0.1:8080/v1</span></p>
+        </div>
+        <div class="card">
+          <h3>Aktives Profil</h3>
+          <p>Hermes 3 8B / 64k / 1 Slot</p>
+          <p>Modell: <span class="mono">hermes-3-llama-3.1-8b-q6_k.gguf</span></p>
+        </div>
+        <div class="card">
+          <h3>Hermes</h3>
+          <p class="ok">● Endpoint bereit</p>
+          <p>Empfohlener Context: <span class="mono">64000</span></p>
+        </div>
+        <div class="card">
+          <h3>Integrationen</h3>
+          <p>GitHub: <span class="ok">verbunden</span></p>
+          <p>Hugging Face: <span class="warn">nicht getestet</span></p>
+          <p>Gemini: <span class="ok">verbunden</span></p>
+        </div>
+      </section>
+
+      <section class="section card">
+        <h3>Empfohlene Startaktionen</h3>
+        <a class="btn" href="#">Server starten</a>
+        <a class="btn secondary" href="#">Health Check</a>
+        <a class="btn secondary" href="#">WebUI öffnen</a>
+        <a class="btn secondary" href="#">Hermes-Einstellungen kopieren</a>
+      </section>
+
+      <section class="section card">
+        <h3>Integrationsübersicht</h3>
+        <table>
+          <thead>
+            <tr><th>Dienst</th><th>Zweck</th><th>Secret</th><th>Test</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>llama.cpp</td><td>Lokaler OpenAI-kompatibler Server</td><td>kein Pflichtsecret lokal</td><td>/health, /v1/models</td></tr>
+            <tr><td>GitHub</td><td>Repos, Issues, PRs</td><td>GITHUB_TOKEN</td><td>/user</td></tr>
+            <tr><td>Hugging Face</td><td>Modelle, Inference, Hub</td><td>HF_TOKEN</td><td>Inference-Test</td></tr>
+            <tr><td>Gemini / AI Studio</td><td>Cloud-LLM, Erweiterungen</td><td>GEMINI_API_KEY</td><td>generateContent</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section card">
+        <h3>Hinweis</h3>
+        <p>Dieses Mockup ist bewusst statisch. Es dient als visuelle Vorlage für die spätere Google-AI-Studio-App.</p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

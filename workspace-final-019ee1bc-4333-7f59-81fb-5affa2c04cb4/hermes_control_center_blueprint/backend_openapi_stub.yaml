@@ -1,0 +1,158 @@
+openapi: 3.1.0
+info:
+  title: Hermes Control Center Backend API
+  version: 0.1.0
+  description: Backend blueprint for a unified llama.cpp and integrations control center.
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/server/status:
+    get:
+      summary: Get llama.cpp process and health status
+      responses:
+        '200':
+          description: OK
+  /api/server/start:
+    post:
+      summary: Start llama.cpp with selected profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LlamaProfile'
+      responses:
+        '200':
+          description: Started
+  /api/server/stop:
+    post:
+      summary: Stop llama.cpp
+      responses:
+        '200':
+          description: Stopped
+  /api/server/restart:
+    post:
+      summary: Restart llama.cpp
+      responses:
+        '200':
+          description: Restarted
+  /api/server/health:
+    get:
+      summary: Proxy llama.cpp /health
+      responses:
+        '200':
+          description: OK
+  /api/server/models:
+    get:
+      summary: Proxy llama.cpp /v1/models
+      responses:
+        '200':
+          description: OK
+  /api/profiles:
+    get:
+      summary: List saved profiles
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Create profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LlamaProfile'
+      responses:
+        '200':
+          description: Created
+  /api/profiles/{id}:
+    put:
+      summary: Update profile
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LlamaProfile'
+      responses:
+        '200':
+          description: Updated
+    delete:
+      summary: Delete profile
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deleted
+  /api/integrations/github/test:
+    get:
+      summary: Test GitHub connection
+      responses:
+        '200':
+          description: OK
+  /api/integrations/huggingface/test:
+    get:
+      summary: Test Hugging Face connection
+      responses:
+        '200':
+          description: OK
+  /api/integrations/gemini/test:
+    get:
+      summary: Test Gemini connection
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    LlamaProfile:
+      type: object
+      properties:
+        name:
+          type: string
+        exePath:
+          type: string
+        modelPath:
+          type: string
+        host:
+          type: string
+        port:
+          type: integer
+        context:
+          type: integer
+        gpuLayers:
+          oneOf:
+            - type: string
+            - type: integer
+        parallel:
+          type: integer
+        cacheTypeK:
+          type: string
+        cacheTypeV:
+          type: string
+        flashAttention:
+          type: string
+        batch:
+          type: integer
+        uBatch:
+          type: integer
+        threads:
+          type: integer
+        jinja:
+          type: boolean
+      required:
+        - name
+        - exePath
+        - modelPath
+        - host
+        - port
+        - context

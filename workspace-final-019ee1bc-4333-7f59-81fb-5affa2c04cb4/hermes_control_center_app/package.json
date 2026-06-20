@@ -1,0 +1,52 @@
+{
+  "name": "hermes-control-center",
+  "version": "0.1.0",
+  "description": "Desktop-Grundgeruest fuer lokales llama.cpp-Management, Hermes-Anbindung und Integrationen mit GitHub, Hugging Face und Gemini.",
+  "main": "electron/main.cjs",
+  "type": "commonjs",
+  "scripts": {
+    "dev:server": "node --watch server/index.js",
+    "dev:client": "vite --config client/vite.config.js",
+    "dev:electron": "wait-on tcp:3001 tcp:5173 && electron .",
+    "dev": "concurrently -k \"npm run dev:server\" \"npm run dev:client\" \"npm run dev:electron\"",
+    "build:client": "vite build --config client/vite.config.js",
+    "start:server": "node server/index.js",
+    "start:electron": "electron .",
+    "pack": "npm run build:client && electron-builder",
+    "lint:placeholder": "node -e \"console.log('Linting spaeter einrichten')\""
+  },
+  "build": {
+    "appId": "local.hermes.control.center",
+    "productName": "Hermes Control Center",
+    "files": [
+      "electron/**/*",
+      "server/**/*",
+      "client/dist/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "build"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "electron": "^31.0.0",
+    "express": "^4.19.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "electron-builder": "^24.13.3",
+    "vite": "^5.4.10",
+    "wait-on": "^8.0.1"
+  }
+}

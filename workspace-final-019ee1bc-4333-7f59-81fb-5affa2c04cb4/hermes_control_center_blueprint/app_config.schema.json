@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hermes Control Center Config",
+  "type": "object",
+  "properties": {
+    "app": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "language": { "type": "string", "enum": ["de", "en"] }
+      },
+      "required": ["name", "language"]
+    },
+    "llamacpp": {
+      "type": "object",
+      "properties": {
+        "exePath": { "type": "string" },
+        "modelPath": { "type": "string" },
+        "host": { "type": "string" },
+        "port": { "type": "integer" },
+        "context": { "type": "integer" },
+        "gpuLayers": { "type": ["string", "integer"] },
+        "parallel": { "type": "integer" },
+        "cacheTypeK": { "type": "string" },
+        "cacheTypeV": { "type": "string" },
+        "flashAttention": { "type": "string", "enum": ["on", "off", "auto"] },
+        "batch": { "type": "integer" },
+        "uBatch": { "type": "integer" },
+        "threads": { "type": "integer" },
+        "jinja": { "type": "boolean" }
+      },
+      "required": ["exePath", "modelPath", "host", "port", "context"]
+    },
+    "hermes": {
+      "type": "object",
+      "properties": {
+        "provider": { "type": "string" },
+        "baseUrl": { "type": "string" },
+        "contextLength": { "type": "integer" }
+      },
+      "required": ["provider", "baseUrl", "contextLength"]
+    },
+    "integrations": {
+      "type": "object",
+      "properties": {
+        "github": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "defaultOwner": { "type": "string" },
+            "defaultRepo": { "type": "string" }
+          }
+        },
+        "huggingface": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "defaultModel": { "type": "string" }
+          }
+        },
+        "gemini": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "defaultModel": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "required": ["app", "llamacpp", "hermes", "integrations"]
+}

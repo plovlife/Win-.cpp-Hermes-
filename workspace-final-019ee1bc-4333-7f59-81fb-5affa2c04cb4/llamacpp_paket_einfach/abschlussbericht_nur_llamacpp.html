@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Abschlussbericht – llama.cpp + Hermes lokal</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;line-height:1.6;margin:0;background:#f4f7fb;color:#1c2430}
+    .wrap{max-width:1100px;margin:0 auto;padding:32px}
+    .card{background:#fff;border-radius:16px;padding:32px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+    h1,h2,h3{color:#10243e}
+    h1{font-size:2rem;margin-top:0}
+    h2{border-bottom:2px solid #e5edf7;padding-bottom:8px;margin-top:32px}
+    code,pre{background:#f3f5f8;border-radius:8px}
+    code{padding:2px 6px}
+    pre{padding:16px;overflow:auto}
+    .note{background:#eef6ff;border-left:5px solid #2d6cdf;padding:14px 16px;border-radius:8px}
+    .ok{background:#eefbf1;border-left:5px solid #22a559;padding:14px 16px;border-radius:8px}
+    ul{padding-left:22px}
+    .small{color:#5a6677}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Abschlussbericht und Tutorial</h1>
+      <p class="small">Aufbau eines lokalen Hermes-Agent-Backends ausschließlich mit <strong>llama.cpp</strong> unter Windows 11</p>
+
+      <div class="note">
+        <strong>Kernaussage:</strong> Für den vorliegenden Anwendungsfall ist ein direktes <code>llama.cpp</code>-Setup mit langem Kontext, einem Hermes-tauglichen 8B-GGUF-Modell und einer einfachen Windows-Startdatei die sinnvollste Lösung.
+      </div>
+
+      <h2>1. Ziel des Projekts</h2>
+      <p>Dieses Projekt verfolgt das Ziel, einen vollständig lokalen Modellserver bereitzustellen, der als Backend für Hermes Agent dient. Der Server soll OpenAI-kompatibel erreichbar sein, lange Kontexte unterstützen, auf Consumer-Hardware stabil laufen und zugleich so dokumentiert werden, dass er sich für spätere wissenschaftliche Auswertungen eignet.</p>
+
+      <h2>2. Warum nur llama.cpp?</h2>
+      <p><code>llama.cpp</code> bietet einen direkten Zugriff auf die Inferenzschicht. Der offizielle <code>llama-server</code> unterstützt OpenAI-kompatible Endpoints, WebUI, Parallel-Slots, Continuous Batching, Function Calling, Monitoring und weitere Funktionen. Dadurch lässt sich eine saubere, reproduzierbare Architektur ohne zusätzliche Abstraktionsschichten aufbauen.</p>
+
+      <h2>3. Empfohlenes Modell</h2>
+      <ul>
+        <li><strong>Primär:</strong> Hermes-3-Llama-3.1-8B-GGUF</li>
+        <li><strong>Empfohlene Quantisierung:</strong> Q6_K oder Q5_K_M</li>
+      </ul>
+      <p>Für Agent-Workflows ist nicht die maximale Modellgröße entscheidend, sondern die Kombination aus Strukturtreue, Tool-Eignung, ausreichendem Kontextfenster und stabiler Laufzeit.</p>
+
+      <h2>4. Zielkonfiguration</h2>
+      <pre><code>llama-server.exe \
+  -m C:\000.mAIn\Model\01_LLMs\GGUF\hermes-3-llama-3.1-8b-q6_k.gguf \
+  --host 127.0.0.1 --port 8080 \
+  -ngl all \
+  -c 65536 \
+  -np 1 \
+  -ctk q8_0 -ctv q8_0 \
+  -fa on \
+  -b 2048 -ub 512 \
+  -t 8 \
+  --jinja</code></pre>
+
+      <h2>5. Bedeutung der wichtigsten Parameter</h2>
+      <ul>
+        <li><code>-m</code>: Pfad zur Modell-Datei</li>
+        <li><code>--host / --port</code>: lokale Erreichbarkeit des Servers</li>
+        <li><code>-ngl all</code>: moeglichst viel Modell auf GPU</li>
+        <li><code>-c 65536</code>: langes Kontextfenster fuer Hermes</li>
+        <li><code>-np 1</code>: ein voller Slot statt geteilter Parallelisierung</li>
+        <li><code>-ctk / -ctv q8_0</code>: kompakterer KV-Cache</li>
+        <li><code>-fa on</code>: Flash Attention aktiv</li>
+        <li><code>--jinja</code>: saubere Chat-Template-Verarbeitung</li>
+      </ul>
+
+      <h2>6. Hermes-Anbindung</h2>
+      <div class="ok">
+        <strong>In Hermes eintragen:</strong><br>
+        Provider: <code>Custom endpoint</code><br>
+        URL: <code>http://127.0.0.1:8080/v1</code><br>
+        Context Length: <code>64000</code>
+      </div>
+
+      <h2>7. Vereinfachter Alltagseinsatz</h2>
+      <p>Im beigefuegten Paket befinden sich bereits fertige Dateien fuer den praktischen Betrieb:</p>
+      <ul>
+        <li><code>START_llama_server_GUI.bat</code> – startet den Server per Doppelklick</li>
+        <li><code>START_llama_server_GUI.ps1</code> – fragt beim ersten Start nach <code>llama-server.exe</code> und dem GGUF-Modell</li>
+        <li><code>STOP_llama_server.bat</code> – stoppt laufende Instanzen</li>
+        <li><code>SERVER_TEST_UND_WEBUI.bat</code> – oeffnet WebUI und testet den Endpoint</li>
+      </ul>
+
+      <h2>8. Tests</h2>
+      <pre><code>curl.exe http://127.0.0.1:8080/health
+curl.exe http://127.0.0.1:8080/v1/models
+nvidia-smi
+Get-Process llama-server</code></pre>
+      <p>Diese Tests pruefen Servererreichbarkeit, API-Funktion, GPU-Auslastung und laufende Prozesse.</p>
+
+      <h2>9. Fazit</h2>
+      <p>Ein ausschließlich auf <code>llama.cpp</code> basierender Aufbau ist für dieses Projekt die fachlich sauberste und praktisch sinnvollste Lösung. In Kombination mit einem Hermes-tauglichen 8B-Modell, langem Kontext und einem einfachen Windows-Startmechanismus entsteht ein lokales System, das sowohl im Alltag als auch als Ausgangspunkt für technisch strukturierte oder akademisch orientierte Arbeiten tragfähig ist.</p>
+    </div>
+  </div>
+</body>
+</html>

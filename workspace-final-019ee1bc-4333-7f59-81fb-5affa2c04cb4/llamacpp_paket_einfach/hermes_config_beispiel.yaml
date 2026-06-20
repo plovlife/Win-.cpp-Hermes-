@@ -1,0 +1,10 @@
+# Beispiel fuer eine Hermes-Konfiguration mit lokalem llama.cpp Endpoint
+# Diese Datei ist nur eine Vorlage / Orientierung.
+
+model:
+  default: hermes-local
+  provider: custom
+  base_url: http://127.0.0.1:8080/v1
+
+# In Hermes selbst solltest du darauf achten,
+# dass das Kontextfenster auf 64000 gesetzt wird.

@@ -1,0 +1,33 @@
+HERMES EINSTELLUNGEN FUER DEINEN LOKALEN LLAMA.CPP SERVER
+========================================================
+
+In Hermes bitte Folgendes eintragen:
+
+1. Provider:
+   Custom endpoint
+
+2. API Base URL:
+   http://127.0.0.1:8080/v1
+
+3. API Key:
+   Falls Hermes etwas verlangt, kannst du z. B. dies eintragen:
+   local
+
+4. Model Name:
+   Nimm den Namen des Modells, das du in llama.cpp geladen hast.
+   Wenn du unsicher bist, starte danach SERVER_TEST_UND_WEBUI.bat.
+   Dort siehst du die Antwort von /v1/models.
+
+5. Context Length:
+   64000
+
+WARUM 64000?
+------------
+Hermes arbeitet als Agent mit Verlauf, Tool-Ausgaben und mehreren Schritten.
+Deshalb ist ein langes Kontextfenster wichtig.
+
+WENN ES NICHT SOFORT GEHT
+------------------------
+- Erst START_llama_server_GUI.bat ausfuehren
+- Dann SERVER_TEST_UND_WEBUI.bat testen
+- Danach Hermes einrichten

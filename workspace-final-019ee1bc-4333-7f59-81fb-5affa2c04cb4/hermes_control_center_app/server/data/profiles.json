@@ -1,0 +1,29 @@
+[
+  {
+    "id": "default-hermes-profile",
+    "createdAt": "2026-06-19T00:00:00.000Z",
+    "name": "Hermes lokal – 8B – 64k",
+    "description": "Empfohlenes Standardprofil fuer lokalen Hermes-Betrieb mit llama.cpp",
+    "llamacpp": {
+      "exePath": "C:\\llama.cpp\\llama-server.exe",
+      "modelPath": "C:\\000.mAIn\\Model\\01_LLMs\\GGUF\\hermes-3-llama-3.1-8b-q6_k.gguf",
+      "host": "127.0.0.1",
+      "port": 8080,
+      "context": 65536,
+      "gpuLayers": "all",
+      "parallel": 1,
+      "cacheTypeK": "q8_0",
+      "cacheTypeV": "q8_0",
+      "flashAttention": "on",
+      "batch": 2048,
+      "uBatch": 512,
+      "threads": 8,
+      "jinja": true
+    },
+    "hermes": {
+      "provider": "custom",
+      "baseUrl": "http://127.0.0.1:8080/v1",
+      "contextLength": 64000
+    }
+  }
+]

@@ -1,0 +1,32 @@
+EMPFOHLENE PFADE UND MODELLHINWEISE
+==================================
+
+EMPFOHLENE LLAMA.CPP PFADE
+--------------------------
+Server:
+C:\llama.cpp\
+
+Modelle:
+C:\000.mAIn\Model\01_LLMs\GGUF\
+
+Skripte:
+C:\000.mAIn\Scripts\
+
+EMPFOHLENES MODELL
+------------------
+NousResearch / Hermes-3-Llama-3.1-8B-GGUF
+
+Empfohlene Quantisierung:
+- Q6_K
+oder
+- Q5_K_M
+
+WARUM?
+------
+Weil fuer Hermes als Agent nicht nur Sprachqualitaet wichtig ist,
+sondern auch Struktur, Tool-Verhalten und genug Kontext.
+
+WENN DU NOCH DAS MODELL BESCHAFFEN MUSST
+----------------------------------------
+Link:
+https://huggingface.co/NousResearch/Hermes-3-Llama-3.1-8B-GGUF
